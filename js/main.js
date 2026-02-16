@@ -2,6 +2,10 @@ let app = new Vue({
     el: '#app',
     data: {
         product: "Socks",
-        description: "A pair of warm, fuzzy socks",
+        image: "./assets/vmSocks-green-onWhite.jpg",
+        altText: "A pair of socks",
+        inventory: 100,
+        inStock: true
     }
 })
+
