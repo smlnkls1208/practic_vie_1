@@ -5,7 +5,8 @@ let app = new Vue({
         image: "./assets/vmSocks-green-onWhite.jpg",
         altText: "A pair of socks",
         inventory: 100,
-        inStock: true
+        inStock: true,
+        onSale: false,
     }
 })
 
