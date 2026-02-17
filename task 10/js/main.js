@@ -21,33 +21,62 @@ Vue.component('product-review', {
      <option>1</option>
    </select>
  </p>
+ 
+ <p>
+ <label for="recommend">Would you recommend this product?</label>
+ <label>
+    <input type="radio" id="recommend-yes" value="yes" v-model="recommend">
+    Yes
+  </label>
+  <label>
+    <input type="radio" id="recommend-no" value="no" v-model="recommend">
+    No
+  </label>
+ 
+</p>
 
  <p>
    <input type="submit" value="Submit"> 
  </p>
-
+<p v-if="errors.length">
+ <b>Please correct the following error(s):</b>
+ <ul>
+   <li v-for="error in errors">{{ error }}</li>
+ </ul>
+</p>
 </form>
+
 
  `,
     data() {
         return {
             name: null,
             review: null,
-            rating: null
+            rating: null,
+            errors: [],
+            recommend: null,
         }
     },
+
     methods:{
         onSubmit() {
-            let productReview = {
-                name: this.name,
-                review: this.review,
-                rating: this.rating
+            if(this.name && this.review && this.rating) {
+                let productReview = {
+                    name: this.name,
+                    review: this.review,
+                    rating: this.rating
+                }
+                this.$emit('review-submitted', productReview)
+                this.name = null
+                this.review = null
+                this.rating = null
+            } else {
+                if(!this.name) this.errors.push("Name required.")
+                if(!this.review) this.errors.push("Review required.")
+                if(!this.rating) this.errors.push("Rating required.")
             }
-            this.$emit('review-submitted', productReview)
-            this.name = null
-            this.review = null
-            this.rating = null
         }
+
     }
 
 
