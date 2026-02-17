@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Task 7</title>
     <link rel="stylesheet" href="css/main.css">
     <script defer src="js/vue.min.js"></script>
     <script defer src="js/main.js"></script>
-    <title>Product App</title>
 </head>
 <body>
 <div id="app">
@@ -21,16 +21,17 @@
             <h1>{{ title }}</h1>
             <p v-if="inStock">In stock</p>
             <p v-else>Out of Stock</p>
+            <p>{{ sale }}</p>
             <ul>
                 <li v-for="detail in details">{{ detail }}</li>
             </ul>
 
             <div
                     class="color-box"
-                    v-for="variant in variants"
+                    v-for="(variant, index) in variants"
                     :key="variant.variantId"
                     :style="{ backgroundColor:variant.variantColor }"
-                    @mouseover="updateProduct(variant.variantImage)"
+                    @mouseover="updateProduct(index)"
             >
             </div>
 
@@ -49,6 +50,5 @@
 
     </div>
 </div>
-
 </body>
 </html>
