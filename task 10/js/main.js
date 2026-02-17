@@ -108,7 +108,11 @@ Vue.component('product', {
            </button>    
        </div>           
        
-       <product-tabs :reviews="reviews"></product-tabs>
+       <product-tabs 
+           :reviews="reviews" 
+           :shipping="shipping" 
+           :details="details"
+       ></product-tabs>
        
    </div>
  `,
@@ -176,6 +180,14 @@ Vue.component('product-tabs', {
         reviews: {
             type: Array,
             required: false
+        },
+        shipping: {
+            type: String,
+            required: false
+        },
+        details: {
+            type: Array,
+            required: false
         }
     },
     template: `
@@ -187,6 +199,7 @@ Vue.component('product-tabs', {
                @click="selectedTab = tab"
          >{{ tab }}</span>
        </ul>
+       
        <div v-show="selectedTab === 'Reviews'">
          <p v-if="!reviews.length">There are no reviews yet.</p>
          <ul>
@@ -197,14 +210,26 @@ Vue.component('product-tabs', {
            </li>
          </ul>
        </div>
+       
        <div v-show="selectedTab === 'Make a Review'">
          <product-review></product-review>
        </div>
+       
+       <div v-show="selectedTab === 'Shipping'">
+         <p>{{ shipping }}</p>
+       </div>
+       
+       <div v-show="selectedTab === 'Details'">
+         <ul>
+           <li v-for="(detail, index) in details" :key="index">{{ detail }}</li>
+         </ul>
+       </div>
+       
      </div>
  `,
     data() {
         return {
-            tabs: ['Reviews', 'Make a Review'],
+            tabs: ['Reviews', 'Make a Review', 'Shipping', 'Details'],
             selectedTab: 'Reviews'
         }
     }
