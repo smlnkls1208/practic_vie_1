@@ -33,6 +33,13 @@ Vue.component('product', {
            >
                Add to cart
            </button>
+           <button
+                   v-on:click="remoteToCart"
+                   :disabled="!inStock"
+                   :class="{ disabledButton: !inStock }"
+           >
+               Remote to cart
+           </button>
        
        </div>
    </div>
@@ -64,6 +71,9 @@ Vue.component('product', {
     methods: {
         addToCart() {
             this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId);
+        },
+        remoteToCart() {
+            this.$emit('remote-to-cart', this.variants[this.selectedVariant].variantId);
         },
         updateProduct(index) {
             this.selectedVariant = index;
@@ -100,6 +110,9 @@ let app = new Vue({
     methods: {
         updateCart(id) {
             this.cart.push(id);
+        },
+        deleteCart(id) {
+            this.cart.pop();
         }
     }
 
