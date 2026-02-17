@@ -30,6 +30,7 @@
                 <p>Cart({{ cart }})</p>
             </div>
             <button v-on:click="addToCart">Add to cart</button>
+            <button @click="removeFromCart">Remove from cart</button>
             <div v-for="variant in variants" :key="variant.variantId">
                 <p @mouseover="updateProduct(variant.variantImage)">
                     {{ variant.variantColor }}
