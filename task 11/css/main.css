@@ -91,3 +91,7 @@ textarea {
 .outOfStock {
     text-decoration: line-through;
 }
+
+.error {
+    color: #e74c3c;
+}

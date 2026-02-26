@@ -5,32 +5,29 @@ Vue.component('product-review', {
 
 <form class="review-form" @submit.prevent="onSubmit">
 
-<p v-if="errors.length">
- <b>Please correct the following error(s):</b>
- <ul>
-   <li v-for="error in errors">{{ error }}</li>
- </ul>
-</p>
-
  <p>
    <label for="name">Name:</label>
-   <input id="name" v-model="name" placeholder="name">
+   <input id="name" v-model="name" placeholder="name" @blur="errors.name = !name">
+   <span v-if="errors.name" class="error">Name is required</span>
  </p>
 
  <p>
    <label for="review">Review:</label>
-   <textarea id="review" v-model="review"></textarea>
+   <textarea id="review" v-model="review" @blur="errors.review = !review"></textarea>
+   <span v-if="errors.review" class="error">Review is required</span>
  </p>
 
  <p>
    <label for="rating">Rating:</label>
-   <select id="rating" v-model.number="rating">
+   <select id="rating" v-model.number="rating" @blur="errors.rating = !rating"
+   >
      <option>5</option>
      <option>4</option>
      <option>3</option>
      <option>2</option>
      <option>1</option>
    </select>
+   <span v-if="errors.rating" class="error">Rating is required</span>
  </p>
 
  <p>
@@ -44,12 +41,19 @@ Vue.component('product-review', {
             name: null,
             review: null,
             rating: null,
-            errors: []
+            errors: {
+                name: false,
+                review: false,
+                rating: false
+            }
         }
     },
-    methods:{
+    methods: {
         onSubmit() {
-            if(this.name && this.review && this.rating) {
+            this.errors.name = !this.name;
+            this.errors.review = !this.review;
+            this.errors.rating = !this.rating;
+            if (this.name && this.review && this.rating) {
                 let productReview = {
                     name: this.name,
                     review: this.review,
@@ -59,10 +63,7 @@ Vue.component('product-review', {
                 this.name = null
                 this.review = null
                 this.rating = null
-            } else {
-                if(!this.name) this.errors.push("Name required.")
-                if(!this.review) this.errors.push("Review required.")
-                if(!this.rating) this.errors.push("Rating required.")
+                this.errors = {name: false, review: false, rating: false}
             }
         }
     }
