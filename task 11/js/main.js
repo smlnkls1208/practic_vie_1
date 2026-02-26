@@ -203,14 +203,24 @@ Vue.component('product-tabs', {
        
        <div v-show="selectedTab === 'Reviews'">
          <p v-if="!reviews.length">There are no reviews yet.</p>
-         <ul>
-           <li v-for="(review, index) in reviews" :key="index">
-             <p>{{ review.name }}</p>
-             <p>Rating: {{ review.rating }}</p>
-             <p>{{ review.review }}</p>
-           </li>
-         </ul>
-       </div>
+         <div v-else>
+            <select v-model="selectedRating">
+                <option value="all">All</option>
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+            </select>
+            <ul>
+              <li v-for="(review, index) in filteredReviews" :key="index">
+                <p>{{ review.name }}</p>
+                <p>Rating: {{ review.rating }}</p>
+                <p>{{ review.review }}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
        
        <div v-show="selectedTab === 'Make a Review'">
          <product-review></product-review>
@@ -232,7 +242,16 @@ Vue.component('product-tabs', {
         return {
             tabs: ['Reviews', 'Make a Review'],
             tabs: ['Reviews', 'Make a Review', 'Shipping', 'Details'],
-            selectedTab: 'Reviews'
+            selectedTab: 'Reviews',
+            selectedRating: 'all'
+        }
+    },
+    computed: {
+        filteredReviews() {
+            if (this.selectedRating === 'all') {
+                return this.reviews;
+            }
+            return this.reviews.filter(review => review.rating == this.selectedRating);
         }
     }
 })
